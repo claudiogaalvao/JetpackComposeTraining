@@ -3,6 +3,7 @@ package com.cgcreativesolutions.jetpackcomposetraining
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -43,7 +45,7 @@ fun AnimationsDemo() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        AnimateContentSize()
+        AnimatedPadding()
     }
 }
 
@@ -168,4 +170,32 @@ fun AnimateContentSize() {
 
     ) {
     }
+}
+
+@Composable
+fun AnimatedPadding() {
+    var toggled by remember {
+        mutableStateOf(false)
+    }
+    val animatedPadding by animateDpAsState(
+        if (toggled) {
+            0.dp
+        } else {
+            20.dp
+        },
+        label = "padding"
+    )
+    Box(
+        modifier = Modifier
+            .aspectRatio(1f)
+            .fillMaxSize()
+            .padding(animatedPadding)
+            .background(Color(0xff53D9A1))
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) {
+                toggled = !toggled
+            }
+    )
 }
