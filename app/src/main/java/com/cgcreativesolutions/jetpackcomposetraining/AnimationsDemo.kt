@@ -1,0 +1,171 @@
+package com.cgcreativesolutions.jetpackcomposetraining
+
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+
+@Composable
+fun AnimationsDemo() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        AnimateContentSize()
+    }
+}
+
+@Composable
+fun ExpandableCard() {
+    var showContent by remember {
+        mutableStateOf(false)
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color = Color.LightGray, shape = RoundedCornerShape(8.dp))
+            .padding(12.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(
+                    enabled = true,
+                    onClick = {
+                        showContent = showContent.not()
+                    }
+                ),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = "Title",
+                fontWeight = FontWeight.Bold
+            )
+            Icon(
+                imageVector = Icons.Default.KeyboardArrowDown,
+                contentDescription = "Arrow"
+            )
+        }
+        // Sem animacao
+        if (showContent) {
+            Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus finibus tortor non molestie rutrum. Duis ut posuere ex, sit amet laoreet justo. Aenean quis fringilla libero, eget malesuada nisl. Praesent elementum diam quis ante aliquet bibendum. Aliquam molestie nisi vitae nisl egestas, vitae pellentesque augue ultrices. Mauris rutrum suscipit tellus, id lobortis est sagittis non. Donec aliquet viverra tincidunt. Morbi condimentum tempor elit, sit amet lacinia purus congue ac.")
+        }
+        // Com animacao
+//            AnimatedVisibility(showContent) {
+//                Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus finibus tortor non molestie rutrum. Duis ut posuere ex, sit amet laoreet justo. Aenean quis fringilla libero, eget malesuada nisl. Praesent elementum diam quis ante aliquet bibendum. Aliquam molestie nisi vitae nisl egestas, vitae pellentesque augue ultrices. Mauris rutrum suscipit tellus, id lobortis est sagittis non. Donec aliquet viverra tincidunt. Morbi condimentum tempor elit, sit amet lacinia purus congue ac.")
+//            }
+    }
+}
+
+@Composable
+fun TransitionAlpha() {
+    var alphaValue by remember {
+        mutableFloatStateOf(1f)
+    }
+    val animatedAlpha by animateFloatAsState(
+        targetValue = alphaValue,
+        animationSpec = tween(
+            durationMillis = 2000
+        )
+    )
+    Text(
+        modifier = Modifier
+            .background(color = Color.Black.copy(alpha = animatedAlpha))
+            .padding(12.dp)
+            .clickable(
+                enabled = true,
+                onClick = {
+                    alphaValue = if (alphaValue == 1f) {
+                        0.5f
+                    } else {
+                        1f
+                    }
+                }
+            ),
+        text = "Click to see animation",
+        fontSize = 20.sp
+    )
+}
+
+@Composable
+fun TransitionColor() {
+    var textColor by remember {
+        mutableStateOf(Color.Black)
+    }
+    val animatedColor by animateColorAsState(
+        targetValue = textColor,
+        animationSpec = tween(
+            durationMillis = 2000
+        )
+    )
+    Text(
+        modifier = Modifier
+            .background(color = animatedColor)
+            .padding(12.dp)
+            .clickable(
+                enabled = true,
+                onClick = {
+                    textColor = if (textColor == Color.Black) {
+                        Color.Red
+                    } else {
+                        Color.Black
+                    }
+                }
+            ),
+        text = "Click to see animation",
+        fontSize = 20.sp
+    )
+}
+
+@Composable
+fun AnimateContentSize() {
+    var expanded by remember { mutableStateOf(false) }
+    Box(
+        modifier = Modifier
+            .background(Color.Blue)
+            .animateContentSize()
+            .height(if (expanded) 400.dp else 200.dp)
+            .fillMaxWidth()
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) {
+                expanded = !expanded
+            }
+
+    ) {
+    }
+}
