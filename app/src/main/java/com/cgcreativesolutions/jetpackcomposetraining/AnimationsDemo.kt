@@ -1,10 +1,14 @@
 package com.cgcreativesolutions.jetpackcomposetraining
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColor
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,6 +23,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.Icon
@@ -45,7 +50,7 @@ fun AnimationsDemo() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        AnimatedPadding()
+        InfiniteTransition()
     }
 }
 
@@ -197,5 +202,22 @@ fun AnimatedPadding() {
             ) {
                 toggled = !toggled
             }
+    )
+}
+
+@Composable
+fun InfiniteTransition() {
+    val infiniteTransition = rememberInfiniteTransition(label = "infinite transition")
+    val animatedColor by infiniteTransition.animateColor(
+        initialValue = Color(0xFF60DDAD),
+        targetValue = Color(0xFF4285F4),
+        animationSpec = infiniteRepeatable(tween(1000), RepeatMode.Reverse),
+        label = "color"
+    )
+
+    Text(
+        text = "Hello Compose",
+        color = animatedColor,
+        fontSize = 32.sp
     )
 }
