@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MyApp() {
-    AnimationsDemo()
+    CompositionLocalFontSizeDemo()
 }
 
 @Preview(showBackground = true)
