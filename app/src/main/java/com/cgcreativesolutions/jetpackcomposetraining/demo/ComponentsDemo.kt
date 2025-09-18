@@ -1,4 +1,4 @@
-package com.cgcreativesolutions.jetpackcomposetraining
+package com.cgcreativesolutions.jetpackcomposetraining.demo
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box

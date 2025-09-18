@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.cgcreativesolutions.jetpackcomposetraining.demo.BottomSheetDemo
 import com.cgcreativesolutions.jetpackcomposetraining.ui.theme.JetpackComposeTrainingTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +24,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MyApp() {
-    CompositionLocalFontSizeDemo()
+    BottomSheetDemo()
 }
 
 @Preview(showBackground = true)
